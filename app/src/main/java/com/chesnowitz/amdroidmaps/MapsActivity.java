@@ -93,8 +93,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     List<Address> addresses = geocoder.getFromLocation
                             (location.getLatitude(), location.getLongitude(), 1);
 
-                    if (addresses != null && addresses.size() > 0){
+                    if (addresses != null && addresses.size() > 0) {
                         Log.i("Address Info", addresses.get(0).toString());
+
+                        String addressText = "";
+
+                        if (addresses.get(0).getSubThoroughfare() != null) {
+                            addressText += addresses.get(0).getSubThoroughfare() + " ";
+                        }
+                        if (addresses.get(0).getThoroughfare() != null) {
+                            addressText += addresses.get(0).getThoroughfare() + ",  ";
+                        }
+                        if (addresses.get(0).getLocality() != null) {
+                            addressText += addresses.get(0).getLocality() + ",  ";
+                        }
+                        if (addresses.get(0).getPostalCode() != null) {
+                            addressText += addresses.get(0).getPostalCode() + ", ";
+                        }
+                        if (addresses.get(0).getCountryName() != null) {
+                            addressText += addresses.get(0).getCountryName();
+                        }
+
+                        Toast.makeText(MapsActivity.this, addressText, Toast.LENGTH_SHORT).show();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
