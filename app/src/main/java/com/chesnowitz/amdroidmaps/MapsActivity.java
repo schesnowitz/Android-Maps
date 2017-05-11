@@ -74,7 +74,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Toast.makeText(MapsActivity.this, location.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MapsActivity.this, location.toString(), Toast.LENGTH_SHORT).show();
+
+            LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+            mMap.clear();
+
+            mMap.addMarker(new MarkerOptions().position(userLocation).title("My Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+
+
             }
 
             @Override
@@ -110,12 +120,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
+                Location lastKnownLocation = locationManager.getLastKnownLocation
+                        (LocationManager.GPS_PROVIDER);
+
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(),
+                        lastKnownLocation.getLongitude());
+
+                mMap.clear();
+
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("My Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
             }
         }
-
-    // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
